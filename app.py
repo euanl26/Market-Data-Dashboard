@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MASSIVE_API_KEY = os.getenv('MASSIVE_API_KEY')
+TICKER = "GOOGL"
 
 client = RESTClient(api_key=MASSIVE_API_KEY)
 
@@ -17,7 +18,7 @@ def request_data():
     start_date = today - timedelta(weeks=4)
     end_date = today - timedelta(days=1)
     aggs = client.list_aggs(
-        "AAPL",
+        TICKER,
         1,
         "day",
         start_date,
@@ -41,4 +42,10 @@ def sma():
 
     return(sma)
 
-print(sma())
+def st_app():
+    data = request_data()
+    st.write(TICKER)
+    st.write("Simple Moving Average: ", sma())
+    st.write(data)
+
+st_app()
